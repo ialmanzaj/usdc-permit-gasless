@@ -4,9 +4,9 @@ import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
 
 import * as dotenv from "dotenv";
 
-import upsDownInfo from "../deployments/sepolia/UpVsDownGameV6.json";
-import tokenInfo from "../deployments/sepolia/PLN.json";
-import { PLN, UpVsDownGameV6 } from "../typechain";
+import senderInfo from "../deployments/sepolia/Sender.json";
+import tokenInfo from "../deployments/sepolia/TestUSDC.json";
+import { Sender, TestUSDC } from "../typechain";
 import { doSign } from "../utils/sign";
 
 dotenv.config({ path: ".env" });
@@ -28,32 +28,36 @@ const testSponsoredCall = async () => {
     tokenInfo.address,
     tokenInfo.abi,
     signer
-  ) as PLN;
+  ) as TestUSDC;
 
-  await token.mint(signer.address, 1000);
+  //await token.mint(signer.address, 1000);
 
-  const upsDpwn = new ethers.Contract(
-    upsDownInfo.address,
-    upsDownInfo.abi,
+  const sender = new ethers.Contract(
+    senderInfo.address,
+    senderInfo.abi,
     signer
-  ) as UpVsDownGameV6;
+  ) as Sender;
 
-  const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
+  const deadline = Math.floor(Date.now() / 1000) + 60 * 5;
+  const amount = 10000;
 
   const sig = (await doSign(
     signer,
     token,
-    50,
-    signer.address,
-    upsDownInfo.address,
+    amount,
+    signer.address, //owner
+    senderInfo.address, //spender
     deadline,
     chainId
   )) as Signature;
   const { v, r, s } = sig;
 
-  const { data } = await upsDpwn.populateTransaction.makeTradeFake(
+  const receiver = "0x3bC25D139069Ca06f7079fE67dcEd166b40edA9e";
+
+  const { data } = await sender.populateTransaction.send(
     signer.address,
-    50,
+    receiver,
+    amount,
     deadline,
     v,
     r,
@@ -63,7 +67,7 @@ const testSponsoredCall = async () => {
   // Populate a relay request
   const request: SponsoredCallRequest = {
     chainId,
-    target: upsDownInfo.address,
+    target: senderInfo.address,
     data: data as string,
   };
 

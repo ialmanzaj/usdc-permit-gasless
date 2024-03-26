@@ -9,26 +9,28 @@ import "hardhat-deploy";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
 
-
 // Process Env Variables
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + "/.env" });
 
 const PK = process.env.PK;
-
+const INFURA = process.env.INFURA;
+const API_KEY_ETHERSCAN = process.env.API_KEY_ETHERSCAN;
 
 // HardhatUserConfig bug
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const config: HardhatUserConfig = {
-
   namedAccounts: {
     deployer: {
       default: 0,
     },
   },
-  defaultNetwork: "gelopcelestiatestnet",
-
+  defaultNetwork: "sepolia",
   networks: {
+    sepolia: {
+      accounts: PK ? [PK] : [],
+      url: `https://sepolia.infura.io/v3/${INFURA}`,
+    },
     hardhat: {
       forking: {
         url: "https://rpc.op-celestia-testnet.gelato.digital",
@@ -38,21 +40,6 @@ const config: HardhatUserConfig = {
       accounts: PK ? [PK] : [],
       chainId: 18231,
       url: `https://rpc.unreal.gelato.digital`,
-    },
-    zKatana: {
-      accounts: PK ? [PK] : [],
-      chainId: 1261120,
-      url: `https://rpc.zkatana.gelato.digital`,
-    },
-    opTest: {
-      accounts: PK ? [PK] : [],
-      chainId: 42069,
-      url: `https://rpc.op-testnet.gelato.digital`,
-    },
-    gelopcelestiatestnet: {
-      accounts: PK ? [PK] : [],
-      chainId: 123420111,
-      url: "https://rpc.op-celestia-testnet.gelato.digital",
     },
   },
 
@@ -78,18 +65,9 @@ const config: HardhatUserConfig = {
   // hardhat-deploy
   etherscan: {
     apiKey: {
-      gelopcelestiatestnet: 'your API key'
+      sepolia: API_KEY_ETHERSCAN!,
     },
-    customChains: [
-      {
-        network: "gelopcelestiatestnet",
-        chainId: 123420111,
-        urls: {
-          apiURL: "https://op-celestia-testnet.blockscout.com/api",
-          browserURL: "https://op-celestia-testnet.blockscout.com"
-        }
-      }
-    ]
+    customChains: [],
   },
 };
 

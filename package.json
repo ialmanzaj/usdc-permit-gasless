@@ -15,7 +15,8 @@
     "lint:ts": "eslint -c .eslintrc.json --ext \"**/*.ts\" \"**/*.test.ts\"",
     "lint:sol": "solhint 'contracts/**/*.sol'",
     "postinstall": "yarn husky install",
-    "relay": "ts-node scripts/relay.ts"
+    "relay": "ts-node scripts/relay.ts",
+    "relaySender": "ts-node scripts/relaySender.ts"
   },
   "license": "ISC",
   "devDependencies": {
@@ -62,7 +63,6 @@
   },
   "dependencies": {
     "@gelatonetwork/relay-context": "^3.2.0",
-    "@openzeppelin/contracts": "^5.0.1",
     "@safe-global/safe-core-sdk-types": "^2.3.0",
     "axios": "^1.5.1",
     "gelato-raas-account-abstraction-kit": "1.0.3",
