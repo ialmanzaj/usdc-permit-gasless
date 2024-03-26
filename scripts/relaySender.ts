@@ -21,12 +21,21 @@ const GELATO_RELAY_API_KEY = process.env.GELATO_RELAY_API_KEY;
 
 const relay = new GelatoRelay();
 
+function getTokenAbi() {
+  return [
+      "function nonces(address) view returns (uint256)",
+      "function name() view returns (string)",
+      "function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external",
+      "function transferFrom(address sender, address recipient, uint256 amount) external returns (bool)",
+  ];
+}
+
 const testSponsoredCall = async () => {
   const chainId = (await provider.getNetwork()).chainId;
 
   const token = new ethers.Contract(
     tokenInfo.address,
-    tokenInfo.abi,
+    getTokenAbi(),
     signer
   ) as TestUSDC;
 
@@ -39,7 +48,7 @@ const testSponsoredCall = async () => {
   ) as Sender;
 
   const deadline = Math.floor(Date.now() / 1000) + 60 * 5;
-  const amount = 10000;
+  const amount = 1000000;
 
   const sig = (await doSign(
     signer,

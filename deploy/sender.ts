@@ -15,7 +15,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const usdc = await deploy("TestUSDC", {
     from: deployer,
     log: hre.network.name !== "hardhat",
-    args: [deployer],
+    args: [],
   });
 
   console.log("TestUSDC deployed at: ", usdc.address);
@@ -34,7 +34,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   try {
     await hre.run("verify:verify", {
       address: usdc.address,
-      constructorArguments: [deployer],
+      constructorArguments: [],
     });
     console.log("TestUSDC contract verified");
   } catch (error) {

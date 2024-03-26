@@ -2,15 +2,6 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Contract, Signature, Wallet, providers, utils } from "ethers";
 import hre from "hardhat";
 
-export const frontend = async () => {
-  // const request: CallWithSyncFeeRequest = {
-  //   chainId: chainId.toString(),
-  //   target: nft!.target.toString(),
-  //   feeToken: token!.target.toString(),
-  //   isRelayContext: true,
-  //   data: data
-  // };
-};
 
 export const doSign = async (
   signer: providers.JsonRpcSigner | SignerWithAddress | Wallet,
