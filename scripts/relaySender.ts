@@ -23,10 +23,10 @@ const relay = new GelatoRelay();
 
 function getTokenAbi() {
   return [
-      "function nonces(address) view returns (uint256)",
-      "function name() view returns (string)",
-      "function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external",
-      "function transferFrom(address sender, address recipient, uint256 amount) external returns (bool)",
+    "function nonces(address) view returns (uint256)",
+    "function name() view returns (string)",
+    "function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external",
+    "function transferFrom(address sender, address recipient, uint256 amount) external returns (bool)",
   ];
 }
 
@@ -34,7 +34,7 @@ const testSponsoredCall = async () => {
   const chainId = (await provider.getNetwork()).chainId;
 
   const token = new ethers.Contract(
-    tokenInfo.address,
+    "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
     getTokenAbi(),
     signer
   ) as TestUSDC;

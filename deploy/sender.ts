@@ -25,7 +25,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   const sender = await deploy("Sender", {
     from: deployer,
     log: hre.network.name !== "hardhat",
-    args: [trustedForwarder, usdc.address],
+    args: [trustedForwarder, "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"],
   });
 
   console.log("sender deployed at: ", sender.address);
@@ -44,7 +44,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   try {
     await hre.run("verify:verify", {
       address: sender.address,
-      constructorArguments: [trustedForwarder, usdc.address],
+      constructorArguments: [trustedForwarder, "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"],
     });
     console.log("Sender contract verified");
   } catch (error) {

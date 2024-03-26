@@ -1,7 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Contract, Signature, Wallet, providers, utils } from "ethers";
-import hre from "hardhat";
-
 
 export const doSign = async (
   signer: providers.JsonRpcSigner | SignerWithAddress | Wallet,
@@ -12,10 +10,9 @@ export const doSign = async (
   deadline: number,
   chainId: number
 ): Promise<Signature | null> => {
-
   const domain = {
     name: await token.name(),
-    version: "1",
+    version: "2",
     chainId: chainId,
     verifyingContract: token.address,
   };
